@@ -1,5 +1,4 @@
-import Navbar from "@/components/layout/Navbar-home";
-import Footer from "@/components/layout/Footer-home";
+import NavbarProtected from "@/components/layout/Navbar-protected";
 
 export default function ProtectedLayout({
   children,
@@ -7,12 +6,12 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#F5F2EF] overflow-hidden selection:bg-[#9CC1E7] selection:text-black text-[#1A1615] flex flex-col">
-      <Navbar />
-      <main className="flex-grow pt-24 pb-12 px-6 max-w-6xl mx-auto w-full">
+    <div className="min-h-screen bg-[#F7F4F0] overflow-hidden selection:bg-[#9CC1E7] selection:text-black text-[#1A1615] flex flex-col">
+      <NavbarProtected />
+      {/* pt accounts for fixed navbar + mobile strip on small screens */}
+      <main className="grow pt-28 md:pt-24 pb-16 px-6 max-w-6xl mx-auto w-full">
         {children}
       </main>
-      <Footer />
     </div>
   );
 }
