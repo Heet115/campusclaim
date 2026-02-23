@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
 // ─── Select ───────────────────────────────────────────────────────────────────
@@ -25,6 +25,22 @@ interface SelectProps {
   className?: string;
 }
 
+// ─── Dropdown position ────────────────────────────────────────────────────────
+// We render the listbox with `position: fixed` so it escapes any parent with
+// overflow:hidden / overflow:auto (e.g. scrollable cards, modals, panels).
+// useLayoutEffect measures the trigger and re-positions on every open.
+
+interface DropdownPos {
+  top: number;
+  left: number;
+  width: number;
+  /** true = opens upward */
+  flip: boolean;
+}
+
+const DROPDOWN_MAX_H = 256; // px — keep in sync with max-h-64 below
+const DROPDOWN_GAP = 6; // px gap between trigger and listbox
+
 export function Select({
   options,
   value,
@@ -37,31 +53,71 @@ export function Select({
   className = "",
 }: SelectProps) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<DropdownPos | null>(null);
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const selected = options.find((o) => o.value === value);
 
+  // ── Close on outside click or Escape ──────────────────────────────────────
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
+    if (!open) return;
+    const onMouse = (e: MouseEvent) => {
+      if (
+        triggerRef.current?.contains(e.target as Node) ||
+        listRef.current?.contains(e.target as Node)
+      )
+        return;
+      setOpen(false);
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, []);
+    document.addEventListener("mousedown", onMouse);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onMouse);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  // ── Recalculate position whenever the dropdown opens ──────────────────────
+  // useLayoutEffect runs synchronously before the browser paints, so the
+  // listbox is never briefly at the wrong position.
+  useLayoutEffect(() => {
+    if (!open || !triggerRef.current) return;
+
+    const measure = () => {
+      const rect = triggerRef.current!.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const flip =
+        spaceBelow < DROPDOWN_MAX_H + DROPDOWN_GAP && spaceAbove > spaceBelow;
+
+      setPos({
+        top: flip ? rect.top - DROPDOWN_GAP : rect.bottom + DROPDOWN_GAP,
+        left: rect.left,
+        width: rect.width,
+        flip,
+      });
+    };
+
+    measure();
+
+    // Re-measure while the page scrolls so the dropdown tracks the trigger
+    window.addEventListener("scroll", measure, true);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("scroll", measure, true);
+      window.removeEventListener("resize", measure);
+    };
+  }, [open]);
 
   const selectId = label?.toLowerCase().replace(/\s+/g, "-");
 
   return (
-    <div className={`flex flex-col gap-1.5 w-full ${className}`} ref={ref}>
+    <div className={`flex flex-col gap-1.5 w-full ${className}`}>
       {label && (
         <label
           htmlFor={selectId}
@@ -73,6 +129,7 @@ export function Select({
 
       {/* Trigger */}
       <button
+        ref={triggerRef}
         id={selectId}
         type="button"
         disabled={disabled}
@@ -80,7 +137,10 @@ export function Select({
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={`
-          flex items-center justify-between w-full border border-black/8 rounded-2xl bg-[#F7F4F0] px-4 py-3.5 text-left transition-all duration-200 hover:bg-[#F0EDE9] focus:outline-none focus:bg-white focus:border-[#7EB3F7]/50 focus:ring-4 focus:ring-[#7EB3F7]/15
+          flex items-center justify-between w-full border rounded-2xl bg-[#F7F4F0]
+          px-4 py-3.5 text-left transition-all duration-200
+          hover:bg-[#F0EDE9] focus:outline-none focus:bg-white
+          focus:border-[#7EB3F7]/50 focus:ring-4 focus:ring-[#7EB3F7]/15
           disabled:opacity-50 disabled:pointer-events-none
           ${
             open
@@ -92,12 +152,12 @@ export function Select({
         `}
       >
         {selected?.icon && (
-          <span className="w-4 h-4 shrink-0 text-black/40 [&>svg]:w-full [&>svg]:h-full">
+          <span className="w-4 h-4 shrink-0 text-black/40 [&>svg]:w-full [&>svg]:h-full mr-2">
             {selected.icon}
           </span>
         )}
         <span
-          className={`flex-1 truncate ${selected ? "text-[#111010]" : "text-black/25"}`}
+          className={`flex-1 truncate text-[14px] ${selected ? "text-[#111010]" : "text-black/25"}`}
         >
           {selected?.label ?? placeholder}
         </span>
@@ -106,16 +166,26 @@ export function Select({
         />
       </button>
 
-      {/* Dropdown */}
-      {open && (
+      {/*
+        Listbox rendered with position:fixed so it is never clipped by an
+        overflow:hidden / overflow:auto ancestor (scrollable cards, modals…).
+        Positioned by measuring the trigger's bounding rect in useLayoutEffect.
+      */}
+      {open && pos && (
         <div
+          ref={listRef}
           role="listbox"
-          className="absolute z-50 mt-1 w-full bg-white rounded-2xl border border-black/[0.07] shadow-[0_16px_48px_-8px_rgba(0,0,0,0.15)] py-1.5 overflow-auto max-h-64"
           style={{
-            animation: "dropIn 0.18s cubic-bezier(0.23,1,0.32,1)",
-            top: "100%",
-            left: 0,
+            position: "fixed",
+            top: pos.flip ? undefined : pos.top,
+            bottom: pos.flip ? window.innerHeight - pos.top : undefined,
+            left: pos.left,
+            width: pos.width,
+            zIndex: 9999,
+            animation: "selectDropIn 0.15s cubic-bezier(0.23,1,0.32,1)",
+            transformOrigin: pos.flip ? "bottom center" : "top center",
           }}
+          className="bg-white rounded-2xl border border-black/[0.07] shadow-[0_16px_48px_-8px_rgba(0,0,0,0.18)] py-1.5 overflow-auto max-h-64"
         >
           {options.map((opt) => (
             <div
@@ -164,10 +234,11 @@ export function Select({
           {error ?? hint}
         </p>
       )}
+
       <style>{`
-        @keyframes dropIn {
-          from { opacity:0; transform:translateY(-6px) scale(0.97) }
-          to   { opacity:1; transform:none }
+        @keyframes selectDropIn {
+          from { opacity: 0; transform: translateY(-6px) scaleY(0.96); }
+          to   { opacity: 1; transform: none; }
         }
       `}</style>
     </div>
