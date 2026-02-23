@@ -5,11 +5,7 @@ export default function Hero() {
   return (
     <section className="relative pt-40 pb-32 px-6 overflow-hidden min-h-[90vh] flex flex-col items-center">
       {/* Sky Blue Gradient Base */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#A8C7FA]/50 via-[#F5F2EF] to-[#F5F2EF] -z-10" />
-
-      {/* Soft floating clouds */}
-      <div className="absolute top-20 -left-20 w-96 h-96 bg-white/40 blur-[80px] rounded-full -z-10" />
-      <div className="absolute top-40 -right-20 w-[30rem] h-[30rem] bg-white/50 blur-[100px] rounded-full -z-10" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#A8C7FA]/10  z-10" />
 
       <div className="max-w-4xl mx-auto text-center space-y-8 z-10 relative">
         <Badge variant="glass">🎉 Introducing Smart Claims</Badge>
@@ -38,7 +34,7 @@ export default function Hero() {
       {/* Dashboard Mockup - Floating Up */}
       <div className="mt-20 w-full max-w-5xl mx-auto relative z-20">
         <div className="bg-white/80 backdrop-blur-2xl rounded-[32px] border border-white p-2 card-shadow transform hover:-translate-y-2 transition-transform duration-700">
-          <div className="bg-[#F5F2EF]/50 rounded-[28px] overflow-hidden border border-white/50 aspect-[16/9] md:aspect-[21/9] relative">
+          <div className="bg-[#F5F2EF]/50 rounded-[28px] overflow-hidden border border-white/50 aspect-video md:aspect-21/9 relative">
             <div className="absolute top-0 w-full bg-white/80 backdrop-blur border-b border-black/5 p-4 flex items-center justify-between">
               <div className="flex gap-4 items-center">
                 <div className="w-32 h-8 bg-black/5 rounded-full" />

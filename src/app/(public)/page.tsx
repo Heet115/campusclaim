@@ -8,7 +8,7 @@ import FinalCTA from "@/components/home/FinalCTA";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#F5F2EF] overflow-hidden selection:bg-[#9CC1E7] selection:text-black">
+    <div className="min-h-screen bg-[#F5F2EF] overflow-hidden selection:bg-[#9CC1E7] selection:text-black text-[#1A1615]">
       <Navbar />
       <Hero />
       <LogoCloud />

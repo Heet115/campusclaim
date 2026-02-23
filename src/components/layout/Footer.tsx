@@ -5,6 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#F9F8F8] px-4 md:px-6 pb-6 pt-10">
       <div className="max-w-6xl mx-auto bg-[#FFFFFF] rounded-[32px] p-8 md:p-14 border border-white/50 card-shadow">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#A8C7FA]/50 to-transparent z-20" />
         <div className="flex flex-col md:flex-row justify-between gap-12 md:gap-24 mb-16">
           {/* Brand & Description */}
           <div className="max-w-sm space-y-6">
