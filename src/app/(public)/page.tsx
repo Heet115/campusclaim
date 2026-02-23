@@ -1,19 +1,25 @@
-import Navbar from "@/components/layout/Navbar-home";
+import Ticker from "@/components/home/Ticker";
+import FeaturesBento from "@/components/home/FeaturesBento";
+import FeatureSplit from "@/components/home/FeatureSplit";
+import FinalCTA from "@/components/home/FinalCTA";
 import Footer from "@/components/layout/Footer-home";
 import Hero from "@/components/home/Hero";
-import LogoCloud from "@/components/home/LogoCloud";
-import FeatureSplit from "@/components/home/FeatureSplit";
-import FeaturesBento from "@/components/home/FeaturesBento";
-import FinalCTA from "@/components/home/FinalCTA";
+import HowItWorks from "@/components/home/HowItWorks";
+import Navbar from "@/components/layout/Navbar-home";
+import Testimonial from "@/components/home/Testimonial";
+import Stats from "@/components/home/Stats";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#F5F2EF] overflow-hidden selection:bg-[#9CC1E7] selection:text-black text-[#1A1615]">
+    <div className="min-h-screen bg-white overflow-hidden selection:bg-[#C8DFFE] selection:text-[#111010] text-[#111010]">
       <Navbar />
       <Hero />
-      <LogoCloud />
+      <Ticker />
+      <Stats />
+      <HowItWorks />
       <FeatureSplit />
       <FeaturesBento />
+      <Testimonial />
       <FinalCTA />
       <Footer />
     </div>

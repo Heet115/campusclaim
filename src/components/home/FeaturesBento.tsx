@@ -1,108 +1,144 @@
 import { Search, Smartphone, MapPin, Shield, Clock } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 
 export default function FeaturesBento() {
   return (
-    <section className="py-40 px-6 relative bg-white overflow-hidden isolate">
-      {/* Background glow effects */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-[#A8C7FA] blur-[140px] rounded-full -translate-x-1/2 -translate-y-1/2 -z-10 mix-blend-multiply opacity-20" />
+    <section className="py-32 px-6 relative bg-[#F7F4F0] overflow-hidden isolate">
+      <div className="pointer-events-none absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-[#7EB3F7] blur-[150px] rounded-full -translate-x-1/2 -translate-y-1/2 -z-10 opacity-10" />
 
-      <div className="max-w-6xl mx-auto space-y-20 relative z-10">
-        <div className="text-center space-y-6">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mx-auto leading-[0.9] text-black italic">
-            Built for campus speed,{" "}
-            <span className="text-black/20 not-italic">
+      <div className="max-w-6xl mx-auto space-y-16 relative z-10">
+        <div className="max-w-xl">
+          <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-black/30 mb-4">
+            Features
+          </p>
+          <h2 className="font-display text-[52px] md:text-[68px] italic text-[#111010] leading-[0.9] tracking-tight">
+            Built for speed,
+            <br />
+            <span className="not-italic text-black/25">
               powered by simplicity.
             </span>
           </h2>
-          <p className="max-w-lg mx-auto text-black/40 font-semibold text-lg">
-            Everything you need to manage your lost items in one place.
-          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Top Wide Card */}
-          <div className="lg:col-span-2 bg-[#F5F2EF] rounded-[64px] p-10 md:p-16 flex flex-col justify-between overflow-hidden relative min-h-[480px] shadow-sm border border-black/5 hover:shadow-2xl hover:shadow-black/5 transition-all group">
-            <div className="relative z-10 max-w-sm space-y-6">
-              <div className="w-16 h-16 rounded-[24px] bg-white flex items-center justify-center shadow-sm border border-black/5 group-hover:scale-110 transition-transform">
-                <Search className="w-8 h-8 text-black" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {/* Wide dark card */}
+          <Card
+            variant="dark"
+            padding="none"
+            hover
+            className="lg:col-span-2 rounded-[40px] p-10 md:p-14 flex flex-col justify-between overflow-hidden relative min-h-[420px] group"
+          >
+            <div className="absolute -bottom-20 -right-20 w-[300px] h-[300px] bg-[#7EB3F7] rounded-full blur-[80px] opacity-20 group-hover:opacity-35 transition-opacity pointer-events-none" />
+            <div className="relative z-10 max-w-sm space-y-5">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 backdrop-blur-md group-hover:scale-110 transition-transform">
+                <Search className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-4xl font-bold text-black tracking-tighter">
+              <h3 className="font-display text-[40px] italic text-white leading-[0.9]">
                 Find it instantly.
               </h3>
-              <p className="text-black/40 leading-relaxed font-bold text-lg">
-                Our smart tagging system categorizes items as they come in.
-                Search by building, color, or even the material of your lost
-                item.
+              <p className="text-white/40 leading-relaxed font-medium text-[15px]">
+                Smart tagging categorizes items as they come in. Search by
+                building, color, or even material.
               </p>
             </div>
-
-            {/* Floating Mock UI */}
-            <div className="absolute -right-20 -bottom-20 w-[70%] bg-white rounded-[48px] shadow-2xl border border-black/5 p-10 transform rotate-2 group-hover:-translate-y-10 group-hover:rotate-0 transition-all duration-1000 hidden md:block">
-              <div className="flex gap-4 mb-8">
-                <div className="w-1/2 h-4 bg-black/5 rounded-full" />
-                <div className="w-1/4 h-4 bg-[#A8C7FA]/40 rounded-full" />
+            {/* Mini search UI mockup */}
+            <div className="relative z-10 mt-8 bg-white/5 rounded-2xl p-4 border border-white/10 backdrop-blur-md">
+              <div className="flex items-center gap-3">
+                <Search className="w-4 h-4 text-white/30 shrink-0" />
+                <div className="h-2.5 bg-white/10 rounded-full flex-1" />
+                <div className="w-16 h-6 bg-[#7EB3F7]/30 rounded-lg" />
               </div>
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#F5F2EF] rounded-2xl" />
-                  <div className="w-2/3 h-3 bg-black/5 rounded-full" />
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#F5F2EF] rounded-2xl" />
-                  <div className="w-1/2 h-3 bg-black/5 rounded-full" />
-                </div>
+              <div className="mt-4 space-y-2">
+                {[0.7, 0.5, 0.6].map((w, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 p-2 rounded-xl bg-white/5"
+                  >
+                    <div className="w-7 h-7 bg-white/10 rounded-xl shrink-0" />
+                    <div
+                      className="h-2 bg-white/10 rounded-full"
+                      style={{ width: `${w * 100}%` }}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          </Card>
 
-          {/* Dark Card */}
-          <div className="bg-black rounded-[64px] p-10 md:p-14 text-white flex flex-col justify-between min-h-[400px] relative overflow-hidden group hover:shadow-2xl hover:shadow-black/20 transition-all">
-            <div className="relative z-10 space-y-6">
-              <div className="w-16 h-16 rounded-[24px] bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
-                <Smartphone className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-4xl font-bold tracking-tighter">
+          {/* Mobile card */}
+          <Card
+            variant="default"
+            padding="none"
+            hover
+            className="rounded-[40px] p-10 flex flex-col gap-6 group"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-[#C8DFFE] flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Smartphone className="w-7 h-7 text-[#3B7FD4]" />
+            </div>
+            <div>
+              <h3 className="font-display text-[32px] italic text-[#111010] leading-tight mb-3">
                 Native Feel.
               </h3>
-              <p className="text-white/40 leading-relaxed font-bold text-lg">
-                Report a lost item sitting in the cafeteria while you&apos;re
-                still finishing your coffee.
+              <p className="text-black/40 font-medium text-[14px] leading-relaxed">
+                Report from the cafeteria while finishing your coffee. Works
+                perfectly on any device.
               </p>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-[#A8C7FA] rounded-full blur-[100px] opacity-20" />
-          </div>
+            {/* Phone frame mini */}
+            <div className="mt-auto w-20 h-32 rounded-3xl border-2 border-black/8 bg-[#F7F4F0] mx-auto flex items-center justify-center relative">
+              <div className="absolute top-2 w-10 h-1 bg-black/10 rounded-full" />
+              <div className="w-10 h-10 rounded-2xl bg-[#C8DFFE]/50 flex items-center justify-center">
+                <Search className="w-4 h-4 text-[#3B7FD4]" />
+              </div>
+            </div>
+          </Card>
 
+          {/* Small feature cards */}
           {[
             {
               title: "Precise Tagging",
-              desc: "Hall-by-hall accuracy.",
-              icon: <MapPin />,
+              desc: "Hall-by-hall accuracy for every reported item.",
+              icon: <MapPin className="w-6 h-6" />,
+              color: "#FDE8D8",
+              text: "#C2622A",
             },
             {
               title: "Secure Portal",
-              desc: "Student verification.",
-              icon: <Shield />,
+              desc: "Student ID verification before any claim.",
+              icon: <Shield className="w-6 h-6" />,
+              color: "#D4F4DC",
+              text: "#2E7D45",
             },
             {
               title: "Auto Notifications",
-              desc: "Instant updates.",
-              icon: <Clock />,
+              desc: "Instant updates the moment there's a match.",
+              icon: <Clock className="w-6 h-6" />,
+              color: "#EDE8FD",
+              text: "#6B3EDE",
             },
           ].map((item, i) => (
-            <div
+            <Card
               key={i}
-              className="bg-white rounded-[48px] p-10 border border-black/5 shadow-sm hover:shadow-xl hover:shadow-black/5 transition-all flex flex-col gap-6"
+              variant="default"
+              padding="none"
+              hover
+              className="rounded-[36px] p-8 flex flex-col gap-5 group"
             >
-              <div className="w-14 h-14 rounded-[20px] bg-[#F5F2EF] flex items-center justify-center">
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                style={{ background: item.color, color: item.text }}
+              >
                 {item.icon}
               </div>
-              <div className="space-y-2">
-                <h4 className="text-2xl font-bold tracking-tighter">
+              <div>
+                <h4 className="font-semibold text-[18px] text-[#111010] mb-1.5">
                   {item.title}
                 </h4>
-                <p className="text-black/40 font-bold">{item.desc}</p>
+                <p className="text-black/40 font-medium text-[13px] leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>
