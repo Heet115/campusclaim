@@ -1,5 +1,5 @@
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar-home";
+import Footer from "@/components/layout/Footer-home";
 import Hero from "@/components/home/Hero";
 import LogoCloud from "@/components/home/LogoCloud";
 import FeatureSplit from "@/components/home/FeatureSplit";

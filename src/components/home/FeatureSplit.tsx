@@ -1,112 +1,100 @@
-import {
-  Image as ImageIcon,
-  CheckCircle,
-  ShieldCheck,
-  Bell,
-  ArrowRight,
-} from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+import { Image as ImageIcon, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-
-type BadgeVariant = "status-amber" | "status-green" | "status-red";
 
 export default function FeatureSplit() {
   return (
-    <section id="features" className="py-32 px-6">
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#A8C7FA]/40 to-white/0 rounded-[32px] transform -rotate-3 scale-105" />
-          <div className="bg-white rounded-[32px] p-4 md:p-8 card-shadow relative z-10 border border-white flex flex-col gap-6">
-            <div className="flex items-center justify-between pb-4 border-b border-black/5">
-              <h3 className="text-lg font-semibold">Active Claims</h3>
-              <Badge variant="solid">3 Pending</Badge>
-            </div>
-            <div className="space-y-4">
-              {[
-                {
-                  item: "Apple AirPods Pro",
-                  stat: "Pending Verification",
-                  color: "status-amber",
-                },
-                {
-                  item: "Student ID - John Doe",
-                  stat: "Approved",
-                  color: "status-green",
-                },
-                {
-                  item: "Calculus Textbook",
-                  stat: "Rejected (Spam)",
-                  color: "status-red",
-                },
-              ].map((row, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-[20px] bg-[#F5F2EF]/50 hover:bg-[#F5F2EF] transition-colors gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0">
-                      <ImageIcon className="w-5 h-5 text-[#6B7280]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-[#1A1615]">{row.item}</p>
-                      <p className="text-sm text-[#6B7280]">Reported today</p>
+    <section id="features" className="py-32 px-6 relative isolate bg-white">
+      {/* Background glow behind features */}
+      <div className="pointer-events-none absolute top-1/2 -left-20 w-[600px] h-[600px] bg-[#A8C7FA] blur-[100px] rounded-full -translate-y-1/2 -z-10 mix-blend-multiply opacity-20" />
+
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+        <div className="relative order-2 lg:order-1">
+          {/* Card Mockup */}
+          <div className="bg-[#F5F2EF] rounded-[48px] p-4 shadow-xl border border-black/5 transform -rotate-2">
+            <div className="bg-white rounded-[40px] p-8 shadow-sm border border-black/5 flex flex-col gap-6">
+              <div className="flex items-center justify-between pb-6 border-b border-black/5">
+                <h3 className="text-xl font-bold tracking-tighter text-black">
+                  Claim Request
+                </h3>
+                <div className="px-3 py-1 bg-amber-100 text-amber-600 rounded-full text-xs font-bold uppercase">
+                  Pending
+                </div>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { item: "Space Gray Macbook Pro", time: "2 min ago" },
+                  { item: "Sony WH-1000XM4", time: "1 hour ago" },
+                  { item: "House Keys (Blue)", time: "3 hours ago" },
+                ].map((row, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between p-4 rounded-[24px] bg-[#F5F2EF]/50 hover:bg-[#F5F2EF] transition-all cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-[16px] bg-white shadow-sm flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <ImageIcon className="w-5 h-5 text-black/20" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-black">{row.item}</p>
+                        <p className="text-[12px] font-semibold text-black/40">
+                          {row.time}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <Badge variant={row.color as BadgeVariant}>{row.stat}</Badge>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="space-y-8 lg:pl-8">
-          <div className="space-y-4">
-            <Badge variant="light">Structured Workflow</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              Keep every claim <br className="hidden sm:block" /> moving
-              forward.
+        <div className="space-y-10 lg:pl-10 relative z-10 order-1 lg:order-2">
+          <div className="space-y-6">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-black">
+              Verify claims <br />
+              <span className="text-black/30 text-4xl md:text-5xl tracking-normal">
+                with absolute certainty.
+              </span>
             </h2>
-            <p className="text-lg text-[#6B7280] leading-relaxed">
-              No more manual record keeping. Validate ownership through a
-              secure, structured claim verification workflow designed for admins
-              and campus security.
+            <p className="text-lg text-black/50 leading-relaxed font-medium max-w-md italic border-l-2 border-[#A8C7FA] pl-6">
+              Our structured verification system makes user validation faster
+              than ever before. No more messy spreadsheets.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid gap-6">
             {[
               {
-                title: "Review Requests",
-                icon: <CheckCircle className="w-5 h-5" />,
+                title: "Photo Proof Uploads",
+                desc: "Users must upload matching photos to verify their identity.",
+                icon: <ImageIcon className="w-5 h-5 text-black" />,
               },
               {
-                title: "Image Proof Uploads",
-                icon: <ImageIcon className="w-5 h-5" />,
-              },
-              {
-                title: "Secure Authentication",
-                icon: <ShieldCheck className="w-5 h-5" />,
-              },
-              {
-                title: "Automate Reminders",
-                icon: <Bell className="w-5 h-5" />,
+                title: "One-Click Approval",
+                desc: "Admins can verify and approve claims in a single tap.",
+                icon: <CheckCircle className="w-5 h-5 text-black" />,
               },
             ].map((ft, i) => (
-              <div
-                key={i}
-                className="bg-white p-4 rounded-[24px] card-shadow border border-white flex items-center gap-4 transition-transform hover:-translate-y-1"
-              >
-                <div className="w-10 h-10 rounded-[12px] bg-[#F5F2EF] flex items-center justify-center text-[#1A1615]">
+              <div key={i} className="flex gap-6 group">
+                <div className="w-12 h-12 rounded-[16px] bg-[#F5F2EF] flex items-center justify-center shrink-0 group-hover:bg-[#A8C7FA]/20 transition-colors shadow-inner">
                   {ft.icon}
                 </div>
-                <span className="font-semibold text-[#1A1615]">{ft.title}</span>
+                <div className="space-y-1">
+                  <h4 className="font-bold text-black">{ft.title}</h4>
+                  <p className="text-black/40 text-sm font-medium">{ft.desc}</p>
+                </div>
               </div>
             ))}
           </div>
 
-          <Button variant="primary" icon={<ArrowRight className="w-4 h-4" />}>
-            For Administrators
-          </Button>
+          <div className="pt-4">
+            <Button
+              href="/admin"
+              className="bg-black text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-black/5 hover:scale-105 transition-transform"
+            >
+              Learn more about admin tools
+            </Button>
+          </div>
         </div>
       </div>
     </section>

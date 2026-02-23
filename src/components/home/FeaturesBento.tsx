@@ -1,117 +1,109 @@
 import { Search, Smartphone, MapPin, Shield, Clock } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
 
 export default function FeaturesBento() {
   return (
-    <section className="py-32 px-6 bg-white">
-      <div className="max-w-6xl mx-auto space-y-16">
+    <section className="py-40 px-6 relative bg-white overflow-hidden isolate">
+      {/* Background glow effects */}
+      <div className="pointer-events-none absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-[#A8C7FA] blur-[140px] rounded-full -translate-x-1/2 -translate-y-1/2 -z-10 mix-blend-multiply opacity-20" />
+
+      <div className="max-w-6xl mx-auto space-y-20 relative z-10">
         <div className="text-center space-y-6">
-          <Badge variant="light">Features</Badge>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-3xl mx-auto leading-tight text-[#1A1615]">
-            Everything you need to manage campus lost & found.
+          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter max-w-4xl mx-auto leading-[0.9] text-black italic">
+            Built for campus speed,{" "}
+            <span className="text-black/20 not-italic">
+              powered by simplicity.
+            </span>
           </h2>
+          <p className="max-w-lg mx-auto text-black/40 font-semibold text-lg">
+            Everything you need to manage your lost items in one place.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Wide Card 1 */}
-          <div className="lg:col-span-2 bg-[#F5F2EF] rounded-[32px] p-8 md:p-12 flex flex-col justify-between overflow-hidden relative min-h-[350px]">
-            <div className="relative z-10 max-w-sm space-y-4">
-              <div className="w-12 h-12 rounded-[16px] bg-white flex items-center justify-center shadow-sm">
-                <Search className="w-6 h-6 text-[#1A1615]" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Top Wide Card */}
+          <div className="lg:col-span-2 bg-[#F5F2EF] rounded-[64px] p-10 md:p-16 flex flex-col justify-between overflow-hidden relative min-h-[480px] shadow-sm border border-black/5 hover:shadow-2xl hover:shadow-black/5 transition-all group">
+            <div className="relative z-10 max-w-sm space-y-6">
+              <div className="w-16 h-16 rounded-[24px] bg-white flex items-center justify-center shadow-sm border border-black/5 group-hover:scale-110 transition-transform">
+                <Search className="w-8 h-8 text-black" />
               </div>
-              <h3 className="text-3xl font-bold text-[#1A1615] tracking-tight">
-                Smart Search & Filter
+              <h3 className="text-4xl font-bold text-black tracking-tighter">
+                Find it instantly.
               </h3>
-              <p className="text-[#6B7280] leading-relaxed">
-                Instantly find items by category, specific location, or date.
-                Our intelligent tagging turns thousands of entries into a clean
-                searchable database.
+              <p className="text-black/40 leading-relaxed font-bold text-lg">
+                Our smart tagging system categorizes items as they come in.
+                Search by building, color, or even the material of your lost
+                item.
               </p>
             </div>
-            <div className="absolute -right-10 top-20 w-[60%] h-[120%] bg-white rounded-t-[32px] rounded-l-[32px] shadow-xl border border-white/50 p-6 transform rotate-6 border-l hidden md:block">
-              {/* Mock UI elements */}
-              <div className="h-8 w-full bg-[#F5F2EF] rounded-full mb-4 px-4 flex items-center">
-                <Search className="w-4 h-4 text-gray-400" />
+
+            {/* Floating Mock UI */}
+            <div className="absolute -right-20 -bottom-20 w-[70%] bg-white rounded-[48px] shadow-2xl border border-black/5 p-10 transform rotate-2 group-hover:-translate-y-10 group-hover:rotate-0 transition-all duration-1000 hidden md:block">
+              <div className="flex gap-4 mb-8">
+                <div className="w-1/2 h-4 bg-black/5 rounded-full" />
+                <div className="w-1/4 h-4 bg-[#A8C7FA]/40 rounded-full" />
               </div>
-              <div className="flex gap-2 mb-4">
-                <div className="px-3 py-1 bg-black/5 rounded-full text-xs">
-                  Electronics
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#F5F2EF] rounded-2xl" />
+                  <div className="w-2/3 h-3 bg-black/5 rounded-full" />
                 </div>
-                <div className="px-3 py-1 bg-black/5 rounded-full text-xs">
-                  Library
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#F5F2EF] rounded-2xl" />
+                  <div className="w-1/2 h-3 bg-black/5 rounded-full" />
                 </div>
               </div>
-              <div className="space-y-3">
-                <div className="h-16 w-full bg-black/5 rounded-[16px]" />
-                <div className="h-16 w-full bg-black/5 rounded-[16px]" />
-              </div>
             </div>
           </div>
 
-          {/* Square Card 1 */}
-          <div className="bg-[#1A1615] rounded-[32px] p-8 md:p-12 text-white flex flex-col justify-between min-h-[350px] relative overflow-hidden">
-            <div className="relative z-10 space-y-4">
-              <div className="w-12 h-12 rounded-[16px] bg-white/10 flex items-center justify-center backdrop-blur-md">
-                <Smartphone className="w-6 h-6 text-white" />
+          {/* Dark Card */}
+          <div className="bg-black rounded-[64px] p-10 md:p-14 text-white flex flex-col justify-between min-h-[400px] relative overflow-hidden group hover:shadow-2xl hover:shadow-black/20 transition-all">
+            <div className="relative z-10 space-y-6">
+              <div className="w-16 h-16 rounded-[24px] bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
+                <Smartphone className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-bold tracking-tight">
-                Mobile Friendly
+              <h3 className="text-4xl font-bold tracking-tighter">
+                Native Feel.
               </h3>
-              <p className="text-white/60 leading-relaxed">
-                Report items on the go right from your smartphone. Snap a
-                picture and upload in seconds.
+              <p className="text-white/40 leading-relaxed font-bold text-lg">
+                Report a lost item sitting in the cafeteria while you&apos;re
+                still finishing your coffee.
               </p>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/5 rounded-full blur-[50px]" />
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-[#A8C7FA] rounded-full blur-[100px] opacity-20" />
           </div>
 
-          {/* Square 2 */}
-          <div className="bg-white border border-black/[0.06] rounded-[32px] p-8 md:p-12 shadow-sm flex flex-col justify-between min-h-[300px]">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-[16px] bg-[#F5F2EF] flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-[#1A1615]" />
+          {[
+            {
+              title: "Precise Tagging",
+              desc: "Hall-by-hall accuracy.",
+              icon: <MapPin />,
+            },
+            {
+              title: "Secure Portal",
+              desc: "Student verification.",
+              icon: <Shield />,
+            },
+            {
+              title: "Auto Notifications",
+              desc: "Instant updates.",
+              icon: <Clock />,
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-[48px] p-10 border border-black/5 shadow-sm hover:shadow-xl hover:shadow-black/5 transition-all flex flex-col gap-6"
+            >
+              <div className="w-14 h-14 rounded-[20px] bg-[#F5F2EF] flex items-center justify-center">
+                {item.icon}
               </div>
-              <h3 className="text-2xl font-bold tracking-tight">
-                Precise Locations
-              </h3>
-              <p className="text-[#6B7280]">
-                Tag exactly where an item was found down to the specific
-                building, hall, or room number.
-              </p>
-            </div>
-          </div>
-
-          {/* Square 3 */}
-          <div className="bg-white border border-black/[0.06] rounded-[32px] p-8 md:p-12 shadow-sm flex flex-col justify-between min-h-[300px]">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-[16px] bg-[#A8C7FA]/30 flex items-center justify-center">
-                <Shield className="w-6 h-6 text-[#1A1615]" />
+              <div className="space-y-2">
+                <h4 className="text-2xl font-bold tracking-tighter">
+                  {item.title}
+                </h4>
+                <p className="text-black/40 font-bold">{item.desc}</p>
               </div>
-              <h3 className="text-2xl font-bold tracking-tight">
-                Role-Based Access
-              </h3>
-              <p className="text-[#6B7280]">
-                Secure environment separating general student capabilities from
-                administrative review controls.
-              </p>
             </div>
-          </div>
-
-          {/* Square 4 */}
-          <div className="bg-white border border-black/[0.06] rounded-[32px] p-8 md:p-12 shadow-sm flex flex-col justify-between min-h-[300px]">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-[16px] bg-[#F5F2EF] flex items-center justify-center">
-                <Clock className="w-6 h-6 text-[#1A1615]" />
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight">
-                Real-time Tracking
-              </h3>
-              <p className="text-[#6B7280]">
-                Keep track of your claim status—Pending, Approved, or
-                Rejected—instantly from your dashboard.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
