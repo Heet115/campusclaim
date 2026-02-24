@@ -13,16 +13,12 @@ import {
   Calendar,
   Tag,
   Images,
-  Expand,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Avatar } from "@/components/ui/Avatar";
 import {
   Modal,
   ModalHeader,
@@ -31,6 +27,7 @@ import {
 } from "@/components/ui/Modal";
 import { Textarea } from "@/components/ui/Input";
 import { ImageViewer } from "@/components/ui/ImageViewer";
+import { PhotoGallery, ItemSidebar, RelatedItems } from "@/components/items";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -149,151 +146,6 @@ const relatedItems = [
   },
 ];
 
-// ─── Photo gallery sub-component ─────────────────────────────────────────────
-
-function PhotoGallery({
-  photos,
-  color,
-  text,
-  onOpenLightbox,
-}: {
-  photos: { src: string; alt: string; caption?: string }[];
-  color: string;
-  text: string;
-  onOpenLightbox: (index: number) => void;
-}) {
-  const [active, setActive] = useState(0);
-
-  // No photos — show coloured placeholder
-  if (photos.length === 0) {
-    return (
-      <div
-        className="h-64 flex items-center justify-center"
-        style={{ background: `${color}50` }}
-      >
-        <div
-          className="w-20 h-20 rounded-[28px] flex items-center justify-center"
-          style={{ background: color }}
-        >
-          <Package className="w-10 h-10" style={{ color: text }} />
-        </div>
-      </div>
-    );
-  }
-
-  const prev = () => setActive((i) => (i === 0 ? photos.length - 1 : i - 1));
-  const next = () => setActive((i) => (i === photos.length - 1 ? 0 : i + 1));
-
-  return (
-    <div className="relative select-none">
-      {/* Main photo */}
-      <div
-        className="relative h-72 sm:h-80 overflow-hidden bg-black/5 cursor-zoom-in"
-        onClick={() => onOpenLightbox(active)}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          key={active}
-          src={photos[active].src}
-          alt={photos[active].alt}
-          className="w-full h-full object-cover transition-opacity duration-300"
-          draggable={false}
-        />
-
-        {/* Gradient overlay at bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-black/30 to-transparent pointer-events-none" />
-
-        {/* Expand hint */}
-        <div className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white/80 text-[11px] font-semibold rounded-lg px-2.5 py-1.5 pointer-events-none">
-          <Expand className="w-3 h-3" />
-          View full
-        </div>
-
-        {/* Badge overlay */}
-        <div className="absolute top-3 left-3 pointer-events-none">
-          <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm rounded-lg px-2.5 py-1.5">
-            <Images className="w-3 h-3 text-white/70" />
-            <span className="text-[11px] font-bold text-white/80">
-              {photos.length} photo{photos.length > 1 ? "s" : ""}
-            </span>
-          </div>
-        </div>
-
-        {/* Prev / Next arrows */}
-        {photos.length > 1 && (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center text-white transition-colors border border-white/10"
-              aria-label="Previous photo"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center text-white transition-colors border border-white/10"
-              aria-label="Next photo"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </>
-        )}
-      </div>
-
-      {/* Thumbnail strip */}
-      {photos.length > 1 && (
-        <div className="flex items-center gap-2 px-5 py-4 overflow-x-auto bg-[#F7F4F0]/60 border-t border-black/5">
-          {photos.map((photo, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`
-                relative shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200
-                ${
-                  i === active
-                    ? "border-[#111010] scale-105 shadow-md"
-                    : "border-transparent opacity-50 hover:opacity-80 hover:scale-105"
-                }
-              `}
-              aria-label={`Photo ${i + 1}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="w-full h-full object-cover"
-                draggable={false}
-              />
-            </button>
-          ))}
-
-          {/* Dot indicators for small screens fallback */}
-          <div className="ml-auto flex items-center gap-1.5 shrink-0">
-            {photos.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`rounded-full transition-all ${
-                  i === active
-                    ? "w-4 h-1.5 bg-[#111010]"
-                    : "w-1.5 h-1.5 bg-black/20"
-                }`}
-                aria-label={`Go to photo ${i + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ItemDetailsPage({
@@ -329,7 +181,6 @@ export default function ItemDetailsPage({
 
   return (
     <>
-      {/* ── Full-screen lightbox ── */}
       <ImageViewer
         images={item.photos}
         initialIndex={lightboxIndex}
@@ -338,13 +189,13 @@ export default function ItemDetailsPage({
       />
 
       <div className="space-y-8">
-        {/* ── Back breadcrumb ── */}
+        {/* Breadcrumb */}
         <div className="flex items-center gap-2">
           <Link
             href="/items"
             className="flex items-center gap-1.5 text-[13px] font-semibold text-black/40 hover:text-black/70 transition-colors group"
           >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />{" "}
             Items directory
           </Link>
           <span className="text-black/20">/</span>
@@ -353,13 +204,10 @@ export default function ItemDetailsPage({
           </span>
         </div>
 
-        {/* ── Main layout ── */}
         <div className="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
           {/* Left column */}
           <div className="space-y-6">
-            {/* Hero card */}
             <Card variant="default" padding="none" className="overflow-hidden">
-              {/* Photo gallery */}
               <div className="relative">
                 <PhotoGallery
                   photos={item.photos}
@@ -367,17 +215,13 @@ export default function ItemDetailsPage({
                   text={item.text}
                   onOpenLightbox={openLightbox}
                 />
-                {/* Status badge overlay on the card */}
                 <div className="absolute top-3 right-3 z-10">
                   <Badge variant={statusVariant} size="sm" dot>
                     {statusLabel}
                   </Badge>
                 </div>
               </div>
-
-              {/* Content */}
               <div className="p-7 space-y-6">
-                {/* Title row */}
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
                     <h1 className="font-display text-[32px] italic text-[#111010] leading-tight">
@@ -418,10 +262,7 @@ export default function ItemDetailsPage({
                     <Share2 className="w-4 h-4" />
                   </button>
                 </div>
-
                 <hr className="border-none h-px bg-black/6" />
-
-                {/* Description */}
                 <div className="space-y-2">
                   <p className="text-[11px] font-bold uppercase tracking-widest text-black/30">
                     Description
@@ -430,8 +271,6 @@ export default function ItemDetailsPage({
                     {item.description}
                   </p>
                 </div>
-
-                {/* Meta grid */}
                 <div className="grid grid-cols-2 gap-4">
                   {[
                     {
@@ -474,7 +313,6 @@ export default function ItemDetailsPage({
               </div>
             </Card>
 
-            {/* Claim success banner */}
             {claimDone && (
               <div className="bg-[#D4F4DC] border border-[#A8E6C2] rounded-2xl p-5 flex items-start gap-4 animate-fade-up">
                 <CheckCircle className="w-5 h-5 text-[#2E7D45] shrink-0 mt-0.5" />
@@ -490,180 +328,20 @@ export default function ItemDetailsPage({
               </div>
             )}
 
-            {/* Related items */}
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-black/30 mb-4">
-                Other recent items
-              </p>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {relatedItems.map((rel) => (
-                  <Link
-                    key={rel.id}
-                    href={`/items/${rel.id}`}
-                    className="block group"
-                  >
-                    <Card
-                      variant="flat"
-                      padding="none"
-                      hover
-                      className="p-4 flex flex-col gap-3"
-                    >
-                      <div
-                        className="w-10 h-10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                        style={{ background: rel.color }}
-                      >
-                        <Package
-                          className="w-5 h-5"
-                          style={{ color: rel.text }}
-                        />
-                      </div>
-                      <div>
-                        <p className="text-[13px] font-semibold text-[#111010] leading-snug group-hover:text-[#3B7FD4] transition-colors">
-                          {rel.name}
-                        </p>
-                        <p className="text-[11px] text-black/35 font-medium mt-1 flex items-center gap-1">
-                          <MapPin className="w-2.5 h-2.5" />
-                          {rel.location}
-                        </p>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <RelatedItems items={relatedItems} />
           </div>
 
-          {/* ── Right sidebar ── */}
-          <div className="space-y-5 lg:sticky lg:top-28">
-            {/* CTA card */}
-            <Card variant="default" padding="none" className="p-6 space-y-5">
-              <div className="space-y-1.5">
-                <h2 className="font-display text-[22px] italic text-[#111010]">
-                  {item.status === "found"
-                    ? "Is this yours?"
-                    : "Did you find it?"}
-                </h2>
-                <p className="text-[13px] text-black/45 font-medium leading-relaxed">
-                  {item.status === "found"
-                    ? "Submit a claim and the finder will reach out to verify and coordinate a handoff."
-                    : "If you've found this item, report it so we can reunite it with the owner."}
-                </p>
-              </div>
-
-              {item.claimCount > 0 && (
-                <div className="flex items-center gap-2 bg-[#FDE8D8]/60 rounded-xl px-3 py-2.5 border border-[#FDB8A0]/40">
-                  <AlertCircle className="w-3.5 h-3.5 text-[#C2622A] shrink-0" />
-                  <p className="text-[12px] font-semibold text-[#C2622A]">
-                    {item.claimCount} claim{item.claimCount > 1 ? "s" : ""}{" "}
-                    already submitted
-                  </p>
-                </div>
-              )}
-
-              {!claimDone ? (
-                <Button
-                  variant="primary"
-                  size="md"
-                  fullWidth
-                  className="btn-magnetic"
-                  icon={<ArrowRight className="w-4 h-4" />}
-                  onClick={() => setClaimOpen(true)}
-                >
-                  {item.status === "found" ? "Submit a claim" : "I found this!"}
-                </Button>
-              ) : (
-                <Button variant="ghost" size="md" fullWidth disabled>
-                  <CheckCircle className="w-4 h-4 mr-2" /> Claim submitted
-                </Button>
-              )}
-
-              <Button variant="outline" size="sm" fullWidth href="/items">
-                Browse other items
-              </Button>
-            </Card>
-
-            {/* Photo count card */}
-            {item.photos.length > 0 && (
-              <Card variant="flat" padding="none" className="p-5">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-black/30 mb-3">
-                  Photos ({item.photos.length})
-                </p>
-                <div className="grid grid-cols-3 gap-2">
-                  {item.photos.map((photo, i) => (
-                    <button
-                      key={i}
-                      onClick={() => openLightbox(i)}
-                      className="relative aspect-square rounded-xl overflow-hidden group border-2 border-transparent hover:border-[#7EB3F7] transition-all"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={photo.src}
-                        alt={photo.alt}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {i === item.photos.length - 1 &&
-                        item.photos.length > 3 && (
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <span className="text-white font-bold text-[13px]">
-                              +{item.photos.length - 2}
-                            </span>
-                          </div>
-                        )}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={() => openLightbox(0)}
-                  className="mt-3 text-[12px] font-bold text-[#7EB3F7] hover:text-[#3B7FD4] transition-colors flex items-center gap-1"
-                >
-                  <Expand className="w-3 h-3" /> View all photos
-                </button>
-              </Card>
-            )}
-
-            {/* Reporter card */}
-            <Card variant="flat" padding="none" className="p-5">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-black/30 mb-4">
-                Reported by
-              </p>
-              <div className="flex items-center gap-3">
-                <Avatar name={item.reportedBy} size="md" />
-                <div>
-                  <p className="font-semibold text-[14px] text-[#111010]">
-                    {item.reportedBy}
-                  </p>
-                  <p className="text-[12px] text-black/35 font-medium">
-                    Verified student
-                  </p>
-                </div>
-                <Badge variant="status-green" size="sm" className="ml-auto">
-                  Verified
-                </Badge>
-              </div>
-            </Card>
-
-            {/* Safety tip */}
-            <div className="relative bg-[#111010] rounded-[24px] p-5 space-y-3 overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#7EB3F7] rounded-full blur-[50px] opacity-20 pointer-events-none" />
-              <div className="relative">
-                <AlertCircle className="w-4 h-4 text-[#7EB3F7] mb-2" />
-                <p className="font-display text-[16px] italic text-white leading-tight mb-1.5">
-                  Stay safe.
-                </p>
-                <p className="text-[12px] text-white/40 font-medium leading-relaxed">
-                  Always meet in a{" "}
-                  <span className="text-white/70 font-semibold">
-                    public campus location
-                  </span>{" "}
-                  for handoffs. Never share personal financial details.
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* Right sidebar */}
+          <ItemSidebar
+            item={item}
+            claimDone={claimDone}
+            onOpenClaim={() => setClaimOpen(true)}
+            onOpenLightbox={openLightbox}
+          />
         </div>
       </div>
 
-      {/* ── Claim modal ── */}
+      {/* Claim modal */}
       <Modal open={claimOpen} onClose={() => setClaimOpen(false)} size="md">
         <ModalHeader
           title="Submit a claim"
@@ -672,7 +350,6 @@ export default function ItemDetailsPage({
         />
         <ModalBody>
           <div className="space-y-5">
-            {/* Item preview */}
             <div className="flex items-center gap-3 bg-[#F7F4F0] rounded-2xl px-4 py-3 border border-black/5">
               {item.photos.length > 0 ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -701,7 +378,6 @@ export default function ItemDetailsPage({
                 {statusLabel}
               </Badge>
             </div>
-
             <Textarea
               label="Describe how you know this is yours"
               placeholder="e.g. My laptop has a scratch on the lid, a blue sticker on the palm rest, and my name is written inside…"
@@ -709,7 +385,6 @@ export default function ItemDetailsPage({
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
             />
-
             <div className="bg-[#FDE8D8]/50 rounded-2xl px-4 py-3 border border-[#FDB8A0]/30 flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 text-[#C2622A] shrink-0 mt-0.5" />
               <p className="text-[12px] font-medium text-[#C2622A] leading-relaxed">

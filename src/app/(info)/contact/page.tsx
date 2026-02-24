@@ -8,7 +8,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#F9F8F8] selection:bg-[#9CC1E7] selection:text-black flex flex-col">
       <Navbar />
 
-      <main className="flex-grow pt-40 pb-32 px-6">
+      <main className="grow pt-40 pb-32 px-6">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
           {/* Left Column: Info */}
           <div className="space-y-12">
