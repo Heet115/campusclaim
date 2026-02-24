@@ -5,12 +5,15 @@ import { CheckCircle, XCircle, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import { Table, type TableColumn } from "@/components/ui/Table";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ADMIN_CLAIMS } from "@/lib/mock-data";
 import { CLAIM_STATUS_CONFIG } from "@/lib/constants";
 import type { AdminClaim, AdminClaimStatus } from "@/lib/types";
 
 export function ClaimsTab() {
   const [claimsData, setClaimsData] = useState(ADMIN_CLAIMS);
+  const [rejectTarget, setRejectTarget] = useState<string | null>(null);
+  const [rejecting, setRejecting] = useState(false);
 
   function approve(id: string) {
     setClaimsData((prev) =>
@@ -19,13 +22,23 @@ export function ClaimsTab() {
       ),
     );
   }
-  function reject(id: string) {
+
+  async function confirmReject() {
+    if (!rejectTarget) return;
+    setRejecting(true);
+    await new Promise((r) => setTimeout(r, 600));
     setClaimsData((prev) =>
       prev.map((c) =>
-        c.id === id ? { ...c, status: "rejected" as AdminClaimStatus } : c,
+        c.id === rejectTarget
+          ? { ...c, status: "rejected" as AdminClaimStatus }
+          : c,
       ),
     );
+    setRejecting(false);
+    setRejectTarget(null);
   }
+
+  const targetClaim = claimsData.find((c) => c.id === rejectTarget);
 
   const columns: TableColumn<AdminClaim>[] = [
     {
@@ -84,7 +97,7 @@ export function ClaimsTab() {
               <CheckCircle className="w-3 h-3" /> Approve
             </button>
             <button
-              onClick={() => reject(row.id)}
+              onClick={() => setRejectTarget(row.id)}
               className="flex items-center gap-1.5 px-2.5 py-1.5 bg-red-50 text-red-500 rounded-xl text-[11px] font-bold hover:bg-red-100 transition-colors"
             >
               <XCircle className="w-3 h-3" /> Reject
@@ -111,6 +124,23 @@ export function ClaimsTab() {
         </div>
       </div>
       <Table columns={columns} data={claimsData} stickyHeader />
+
+      <ConfirmDialog
+        open={!!rejectTarget}
+        onClose={() => setRejectTarget(null)}
+        onConfirm={confirmReject}
+        loading={rejecting}
+        variant="warning"
+        title="Reject this claim?"
+        description={
+          targetClaim
+            ? `This will reject ${targetClaim.claimer}'s claim on "${targetClaim.item}". The claimer will be notified.`
+            : "This action will reject the claim."
+        }
+        confirmLabel="Reject claim"
+        cancelLabel="Keep pending"
+        icon={<XCircle className="w-6 h-6" />}
+      />
     </div>
   );
 }

@@ -10,7 +10,6 @@ import {
   Link as LinkIcon,
   Shield,
   FileText,
-  Package,
   ArrowRight,
   Edit3,
 } from "lucide-react";

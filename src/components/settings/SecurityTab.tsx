@@ -22,6 +22,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@/components/ui/Modal";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { SettingsSection, SwitchRow } from "./SettingsSection";
 
 export function SecurityTab() {
@@ -34,6 +35,9 @@ export function SecurityTab() {
   const [currentPass, setCurrentPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [revokeTarget, setRevokeTarget] = useState<string | null>(null);
+  const [signOutAllOpen, setSignOutAllOpen] = useState(false);
+  const [revoking, setRevoking] = useState(false);
 
   async function changePassword() {
     setPassLoading(true);
@@ -50,6 +54,31 @@ export function SecurityTab() {
     setDeleting(false);
     setDeleteOpen(false);
   }
+
+  const sessions = [
+    {
+      id: "s1",
+      device: "MacBook Pro — Chrome",
+      location: "Stanford, CA",
+      current: true,
+      time: "Now",
+    },
+    {
+      id: "s2",
+      device: "iPhone 15 — Safari",
+      location: "Stanford, CA",
+      current: false,
+      time: "2 hours ago",
+    },
+    {
+      id: "s3",
+      device: "Windows PC — Firefox",
+      location: "Mountain View, CA",
+      current: false,
+      time: "Yesterday",
+    },
+  ];
+  const revokeSession = sessions.find((s) => s.id === revokeTarget);
 
   return (
     <div className="space-y-5">
@@ -152,28 +181,9 @@ export function SecurityTab() {
         description="Devices currently logged in to your account."
       >
         <div className="px-7 py-5 space-y-3">
-          {[
-            {
-              device: "MacBook Pro — Chrome",
-              location: "Stanford, CA",
-              current: true,
-              time: "Now",
-            },
-            {
-              device: "iPhone 15 — Safari",
-              location: "Stanford, CA",
-              current: false,
-              time: "2 hours ago",
-            },
-            {
-              device: "Windows PC — Firefox",
-              location: "Mountain View, CA",
-              current: false,
-              time: "Yesterday",
-            },
-          ].map((s, i) => (
+          {sessions.map((s) => (
             <div
-              key={i}
+              key={s.id}
               className="flex items-center justify-between gap-4 bg-[#F7F4F0] rounded-2xl px-4 py-3.5 border border-black/5"
             >
               <div className="flex items-center gap-3">
@@ -195,13 +205,19 @@ export function SecurityTab() {
                 </div>
               </div>
               {!s.current && (
-                <button className="text-[11px] font-bold text-red-400 hover:text-red-600 transition-colors shrink-0">
+                <button
+                  onClick={() => setRevokeTarget(s.id)}
+                  className="text-[11px] font-bold text-red-400 hover:text-red-600 transition-colors shrink-0"
+                >
                   Revoke
                 </button>
               )}
             </div>
           ))}
-          <button className="w-full text-[12px] font-bold text-red-400 hover:text-red-600 transition-colors text-center pt-1">
+          <button
+            onClick={() => setSignOutAllOpen(true)}
+            className="w-full text-[12px] font-bold text-red-400 hover:text-red-600 transition-colors text-center pt-1"
+          >
             Sign out all other sessions
           </button>
         </div>
@@ -373,6 +389,48 @@ export function SecurityTab() {
           </Button>
         </ModalFooter>
       </Modal>
+
+      {/* Revoke session confirmation */}
+      <ConfirmDialog
+        open={!!revokeTarget}
+        onClose={() => setRevokeTarget(null)}
+        onConfirm={async () => {
+          setRevoking(true);
+          await new Promise((r) => setTimeout(r, 600));
+          setRevoking(false);
+          setRevokeTarget(null);
+        }}
+        loading={revoking}
+        variant="warning"
+        title="Revoke this session?"
+        description={
+          revokeSession
+            ? `"${revokeSession.device}" in ${revokeSession.location} will be signed out immediately.`
+            : "This device will be signed out."
+        }
+        confirmLabel="Revoke session"
+        cancelLabel="Cancel"
+        icon={<LogOut className="w-6 h-6" />}
+      />
+
+      {/* Sign out all sessions confirmation */}
+      <ConfirmDialog
+        open={signOutAllOpen}
+        onClose={() => setSignOutAllOpen(false)}
+        onConfirm={async () => {
+          setRevoking(true);
+          await new Promise((r) => setTimeout(r, 800));
+          setRevoking(false);
+          setSignOutAllOpen(false);
+        }}
+        loading={revoking}
+        variant="danger"
+        title="Sign out all other sessions?"
+        description="All devices except your current session will be signed out. You'll need to sign in again on those devices."
+        confirmLabel="Sign out all"
+        cancelLabel="Cancel"
+        icon={<LogOut className="w-6 h-6" />}
+      />
     </div>
   );
 }

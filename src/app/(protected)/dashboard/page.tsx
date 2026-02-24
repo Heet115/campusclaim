@@ -155,11 +155,12 @@ export default function DashboardPage() {
           <Button
             variant="outline"
             size="sm"
+            href="/notifications"
             icon={<Bell className="w-4 h-4" />}
             iconPosition="left"
             className="relative"
           >
-            Alerts
+            notifications
             <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#7EB3F7] rounded-full" />
           </Button>
           <Button

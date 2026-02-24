@@ -5,6 +5,7 @@ import { Search, Package, MapPin, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Table, type TableColumn } from "@/components/ui/Table";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ActionMenu } from "./KpiCard";
 import { ADMIN_ITEMS } from "@/lib/mock-data";
 import { ITEM_STATUS_CONFIG } from "@/lib/constants";
@@ -12,15 +13,39 @@ import type { AdminItem } from "@/lib/types";
 
 export function ItemsTab() {
   const [search, setSearch] = useState("");
+  const [items, setItems] = useState(ADMIN_ITEMS);
   const [selectedIds, setSelectedIds] = useState<(string | number)[]>([]);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
-  const filtered = ADMIN_ITEMS.filter(
+  const filtered = items.filter(
     (i) =>
       !search ||
       i.name.toLowerCase().includes(search.toLowerCase()) ||
       i.location.toLowerCase().includes(search.toLowerCase()) ||
       i.category.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const targetItem = items.find((i) => i.id === deleteTarget);
+
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    await new Promise((r) => setTimeout(r, 600));
+    setItems((prev) => prev.filter((i) => i.id !== deleteTarget));
+    setDeleting(false);
+    setDeleteTarget(null);
+  }
+
+  async function confirmBulkDelete() {
+    setDeleting(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setItems((prev) => prev.filter((i) => !selectedIds.includes(i.id)));
+    setSelectedIds([]);
+    setDeleting(false);
+    setBulkDeleteOpen(false);
+  }
 
   const columns: TableColumn<AdminItem>[] = [
     {
@@ -75,7 +100,12 @@ export function ItemsTab() {
       key: "actions",
       header: "",
       align: "right",
-      render: () => <ActionMenu onView={() => {}} onDelete={() => {}} />,
+      render: (row) => (
+        <ActionMenu
+          onView={() => {}}
+          onDelete={() => setDeleteTarget(row.id)}
+        />
+      ),
     },
   ];
 
@@ -98,6 +128,7 @@ export function ItemsTab() {
             size="sm"
             icon={<Trash2 className="w-3.5 h-3.5" />}
             iconPosition="left"
+            onClick={() => setBulkDeleteOpen(true)}
           >
             Remove {selectedIds.length} selected
           </Button>
@@ -116,6 +147,36 @@ export function ItemsTab() {
             No items match your search.
           </p>
         }
+      />
+
+      {/* Single item delete confirmation */}
+      <ConfirmDialog
+        open={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        loading={deleting}
+        variant="danger"
+        title="Delete this item?"
+        description={
+          targetItem
+            ? `"${targetItem.name}" and all associated claims will be permanently removed.`
+            : "This item will be permanently deleted."
+        }
+        confirmLabel="Delete item"
+        cancelLabel="Cancel"
+      />
+
+      {/* Bulk delete confirmation */}
+      <ConfirmDialog
+        open={bulkDeleteOpen}
+        onClose={() => setBulkDeleteOpen(false)}
+        onConfirm={confirmBulkDelete}
+        loading={deleting}
+        variant="danger"
+        title={`Delete ${selectedIds.length} items?`}
+        description={`All selected items and their associated claims will be permanently removed. This cannot be undone.`}
+        confirmLabel={`Delete ${selectedIds.length} items`}
+        cancelLabel="Cancel"
       />
     </div>
   );

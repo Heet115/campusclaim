@@ -5,19 +5,38 @@ import { Search, Ban, UserCheck } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import { Table, type TableColumn } from "@/components/ui/Table";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ADMIN_USERS } from "@/lib/mock-data";
 import { USER_ROLE_CONFIG } from "@/lib/constants";
 import type { AdminUser } from "@/lib/types";
 
 export function UsersTab() {
   const [search, setSearch] = useState("");
+  const [usersData, setUsersData] = useState(ADMIN_USERS);
+  const [suspendTarget, setSuspendTarget] = useState<string | null>(null);
+  const [suspending, setSuspending] = useState(false);
 
-  const filtered = ADMIN_USERS.filter(
+  const filtered = usersData.filter(
     (u) =>
       !search ||
       u.name.toLowerCase().includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const targetUser = usersData.find((u) => u.id === suspendTarget);
+
+  async function confirmSuspend() {
+    if (!suspendTarget) return;
+    setSuspending(true);
+    await new Promise((r) => setTimeout(r, 600));
+    setUsersData((prev) =>
+      prev.map((u) =>
+        u.id === suspendTarget ? { ...u, active: !u.active } : u,
+      ),
+    );
+    setSuspending(false);
+    setSuspendTarget(null);
+  }
 
   const columns: TableColumn<AdminUser>[] = [
     {
@@ -93,11 +112,17 @@ export function UsersTab() {
       render: (row) => (
         <div className="flex items-center gap-1.5 justify-end">
           {row.active ? (
-            <button className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold text-red-400 hover:bg-red-50 transition-colors">
+            <button
+              onClick={() => setSuspendTarget(row.id)}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold text-red-400 hover:bg-red-50 transition-colors"
+            >
               <Ban className="w-3 h-3" /> Suspend
             </button>
           ) : (
-            <button className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold text-[#2E7D45] hover:bg-[#D4F4DC] transition-colors">
+            <button
+              onClick={() => setSuspendTarget(row.id)}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-bold text-[#2E7D45] hover:bg-[#D4F4DC] transition-colors"
+            >
               <UserCheck className="w-3 h-3" /> Reinstate
             </button>
           )}
@@ -128,6 +153,31 @@ export function UsersTab() {
           <p className="text-[13px] font-medium text-black/30">
             No users match your search.
           </p>
+        }
+      />
+
+      <ConfirmDialog
+        open={!!suspendTarget}
+        onClose={() => setSuspendTarget(null)}
+        onConfirm={confirmSuspend}
+        loading={suspending}
+        variant={targetUser?.active ? "danger" : "info"}
+        title={
+          targetUser?.active ? "Suspend this user?" : "Reinstate this user?"
+        }
+        description={
+          targetUser?.active
+            ? `${targetUser.name} will lose access. Their items and claims will be frozen.`
+            : `${targetUser?.name} will regain full access to the platform.`
+        }
+        confirmLabel={targetUser?.active ? "Suspend user" : "Reinstate user"}
+        cancelLabel="Cancel"
+        icon={
+          targetUser?.active ? (
+            <Ban className="w-6 h-6" />
+          ) : (
+            <UserCheck className="w-6 h-6" />
+          )
         }
       />
     </div>
