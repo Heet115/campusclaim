@@ -148,7 +148,7 @@ export default function DashboardPage() {
           <h1 className="font-display text-[44px] md:text-[56px] italic text-[#111010] leading-[0.9]">
             Welcome back,
             <br />
-            <span className="not-italic text-black/25">Maya.</span>
+            <span className="not-italic text-black/25">Heet.</span>
           </h1>
         </div>
         <div className="flex items-center gap-3 shrink-0">
