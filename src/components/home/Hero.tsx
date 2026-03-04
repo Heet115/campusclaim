@@ -59,7 +59,7 @@ export default function Hero() {
 
         <div className="animate-fade-up-delay-3 flex flex-col sm:flex-row items-center justify-center gap-3 mb-5">
           <Button
-            href="/report"
+            href="/report/lost"
             variant="primary"
             size="lg"
             className="btn-magnetic group"
@@ -83,7 +83,7 @@ export default function Hero() {
             Report an item
           </Button>
           <Button
-            href="/browse"
+            href="/items"
             variant="glass"
             size="lg"
             className="btn-magnetic"

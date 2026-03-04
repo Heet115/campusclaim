@@ -7,11 +7,13 @@ export function ProfileSnapshot() {
   return (
     <Card variant="flat" padding="none" className="p-6">
       <div className="flex items-center gap-3 mb-5">
-        <Avatar name="Maya Patel" size="lg" />
+        <Avatar name="Heet Viradiya" size="lg" />
         <div>
-          <p className="font-semibold text-[15px] text-[#111010]">Maya Patel</p>
+          <p className="font-semibold text-[15px] text-[#111010]">
+            Heet Viradiya
+          </p>
           <p className="text-[12px] text-black/40 font-medium">
-            maya@stanford.edu
+            hpviradiya05@gmail.com
           </p>
         </div>
       </div>

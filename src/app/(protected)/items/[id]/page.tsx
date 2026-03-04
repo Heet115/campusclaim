@@ -107,7 +107,7 @@ const MOCK_ITEMS: Record<
     text: "#C2622A",
     description:
       "Lost my Sony WH-1000XM4 headphones in the cafeteria during lunch. Midnight black colour in a black hard case with a small keychain attached. Please reach out if found.",
-    reportedBy: "Maya P.",
+    reportedBy: "Heet Viradiya",
     claimCount: 0,
     matched: false,
     photos: HEADPHONE_PHOTOS,

@@ -160,7 +160,7 @@ export function SecurityTab() {
                 </Badge>
               </div>
               <p className="text-[12px] text-black/35 font-medium">
-                maya@stanford.edu
+                hpviradiya05@gmail.com
               </p>
             </div>
           </div>

@@ -101,14 +101,14 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
       id: "m1",
       sender: "other",
       senderName: "Alex R.",
-      text: "Hi Maya! I found your MacBook on the 3rd floor library desk. I verified the small scratch on the lid matches your description.",
+      text: "Hi Heet! I found your MacBook on the 3rd floor library desk. I verified the small scratch on the lid matches your description.",
       time: "10:15 AM",
       type: "text",
     },
     {
       id: "m2",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "Oh that's amazing! Thank you so much! The serial starts with C02ZK — can you confirm?",
       time: "10:18 AM",
       status: "read",
@@ -125,7 +125,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m4",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "",
       time: "10:22 AM",
       status: "read",
@@ -142,7 +142,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m5",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "Can we meet at the Library main entrance? I'm free tomorrow between 1-4 PM.",
       time: "10:30 AM",
       status: "read",
@@ -171,7 +171,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m1",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "Hi Priya! I submitted a claim for the Sony headphones. They're midnight black with a guitar pick keychain on the case zip.",
       time: "9:00 AM",
       status: "read",
@@ -188,7 +188,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m3",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "The left ear-cup has a tiny nick near the hinge. Does that match?",
       time: "9:08 AM",
       status: "read",
@@ -207,8 +207,8 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m1",
       sender: "me",
-      senderName: "Maya P.",
-      text: "Hi Sam, I claimed the TI-84 calculator from Maths Block R303. It has my name 'Maya P.' in permanent marker on the back.",
+      senderName: "Heet Viradiya",
+      text: "Hi Sam, I claimed the TI-84 calculator from Maths Block R303. It has my name 'Heet Viradiya' in permanent marker on the back.",
       time: "8:30 AM",
       status: "delivered",
       type: "text",
@@ -217,7 +217,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
       id: "m2",
       sender: "other",
       senderName: "Sam T.",
-      text: "Hi Maya! I can see a name on the back. Let me verify.",
+      text: "Hi Heet! I can see a name on the back. Let me verify.",
       time: "8:40 AM",
       type: "text",
     },
@@ -250,7 +250,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m2",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "Got it! Thanks so much Rohan, you're a legend 🙏",
       time: "1:02 PM",
       status: "read",
@@ -277,7 +277,7 @@ const MOCK_MESSAGES: Record<string, Message[]> = {
     {
       id: "m2",
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text: "Hi Divya! Yes, the one I found does have a wooden handle. Can you describe anything else specific about it?",
       time: "4:45 PM",
       status: "read",
@@ -317,7 +317,7 @@ export default function MessagesPage() {
     const newMsg: Message = {
       id: `new-${Date.now()}`,
       sender: "me",
-      senderName: "Maya P.",
+      senderName: "Heet Viradiya",
       text,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",

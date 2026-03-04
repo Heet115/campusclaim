@@ -16,13 +16,13 @@ export default function Testimonial() {
         </blockquote>
         <div className="flex rounded-full items-center justify-center gap-3">
           <Avatar
-            name="Maya Patel"
+            name="Heet Viradiya"
             size="md"
             className="bg-linear-to-br rounded-full from-[#7EB3F7] to-[#C8DFFE]"
           />
           <div className="text-left">
             <p className="font-semibold text-[14px] text-[#111010]">
-              Maya Patel
+              Heet Viradiya
             </p>
             <p className="text-[12px] text-black/35 font-medium">
               Junior, Stanford University

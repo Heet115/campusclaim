@@ -11,9 +11,9 @@ import {
 } from "@/components/profile";
 
 const INITIAL = {
-  firstName: "Maya",
-  lastName: "Patel",
-  email: "maya@stanford.edu",
+  firstName: "Heet",
+  lastName: "Viradiya",
+  email: "hpviradiya05@gmail.com",
   phone: "+1 650 555 0102",
   department: "cs",
   year: "3",

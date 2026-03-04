@@ -227,10 +227,10 @@ export default function NavbarProtected() {
                 aria-label="User menu"
                 aria-expanded={menuOpen}
               >
-                <Avatar name="Maya Patel" size="sm" />
+                <Avatar name="Heet Viradiya" size="sm" />
                 <div className="hidden sm:block text-left">
                   <p className="text-[12px] font-bold text-[#111010] leading-tight">
-                    Maya
+                    Heet
                   </p>
                   <p className="text-[10px] text-black/35 font-medium leading-tight">
                     Student
@@ -247,10 +247,10 @@ export default function NavbarProtected() {
                   {/* Profile summary */}
                   <div className="px-4 py-3 border-b border-black/5">
                     <p className="text-[13px] font-bold text-[#111010]">
-                      Maya Patel
+                      Heet Viradiya
                     </p>
                     <p className="text-[11px] text-black/35 font-medium truncate">
-                      maya@stanford.edu
+                      hpviradiya05@gmail.com
                     </p>
                   </div>
 

@@ -170,7 +170,7 @@ const CLAIMS: Claim[] = [
     submittedAt: "Feb 23, 2026",
     updatedAt: "1 hour ago",
     message:
-      "Has my name 'Maya P.' written in permanent marker on the back. Blue case.",
+      "Has my name 'Heet Viradiya' written in permanent marker on the back. Blue case.",
     finderName: "Sam T.",
     myRole: "claimer",
     timeline: [
