@@ -77,7 +77,7 @@ export default function RegisterPage() {
                 your campus.
               </p>
               <Button
-                href="/browse"
+                href="/dashboard"
                 variant="primary"
                 size="lg"
                 className="btn-magnetic"
